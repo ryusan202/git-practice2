@@ -42,6 +42,21 @@ class BooksController < ApplicationController
     @book.destroy
     redirect_to books_path
   end
+  
+def looks(search, word)
+    if search == "perfect_match"
+      where("title LIKE ?", "#{word}")
+    elsif search == "forward_match"
+      where("title LIKE ?", "#{word}%")
+    elsif search == "backward_match"
+      where("title LIKE ?", "%#{word}")
+    elsif search == "partial_match"
+      where("title LIKE ?", "%#{word}%")
+    else
+      all
+    end
+end
+  
 
   private
   def is_matching_login_user

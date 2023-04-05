@@ -1,0 +1,33 @@
+<div class='container'>
+  <div class='row'>
+    <div class='col-md-12 text-center'>
+        <% if @range == "Book" %>
+          <h1>Books Searched for Book</h1>
+        <% elsif @range == "User" %>
+          <h1>Users Searched for User</h1>
+        <% end %>
+    </div>
+
+    <div class='col-md-8 offset-md-1'>
+      <table class='table'>
+        <% if @range == "User" %>
+          <% @users.each do |user| %>
+            <tr>
+                <td><%= image_tag user.get_profile_image, size:"100x100" %></td>
+              <td><%= link_to user.name, user_path(user) %></td>
+              <td><%= link_to 'Show', user %></td>
+            </tr>
+          <% end %>
+        <% elsif @range == "Book" %>
+          <% @books.each do |book| %>
+            <tr>
+              <td><%= image_tag book.user.get_profile_image, size:"100x100" %></td>   
+              <td><%= link_to book.title, book_path(book) %></td>
+              <td><%= book.body %></td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
+    </div>
+  </div>
+</div>
