@@ -12,7 +12,8 @@ import "popper.js"
 import "bootstrap"
 import '@fortawesome/fontawesome-free/js/all';
 import "../stylesheets/application" 
-
+//= require jquery
+//= require jquery_ujs
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()

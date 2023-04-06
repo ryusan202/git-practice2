@@ -1,23 +1,46 @@
 class BookCommentsController < ApplicationController
-    def create
-    @book = Book.find(params[:book_id])
-    comment = current_user.book_comments.new(book_comment_params)
-    comment.book_id = @book.id
-    comment.save
-    redirect_to book_path(@book)
+  before_action :set_book, only: [:create, :destroy, :get_comments]
+
+  def create
+    @book_comment = @book.book_comments.build(book_comment_params)
+    @book_comment.user = current_user
+
+    if @book_comment.save
+      respond_to do |format|
+        format.html { redirect_to @book }
+        format.js
+      end
+    else
+      respond_to do |format|
+        format.html { render 'books/show' }
+        format.js { render :create_failed }
+      end
     end
-    
-    def destroy
-    @book = Book.find(params[:book_id])
+  end
+
+  def destroy
     @book_comment = @book.book_comments.find(params[:id])
     @book_comment.destroy
-    redirect_to book_path(@book)
+    respond_to do |format|
+      format.html { redirect_to @book }
+      format.js
     end
-    
+  end
+
+  def get_comments
+    @comments = @book.book_comments
+    respond_to do |format|
+      format.json { render json: @comments }
+    end
+  end
+
   private
+
+  def set_book
+    @book = Book.find(params[:book_id])
+  end
 
   def book_comment_params
     params.require(:book_comment).permit(:comment)
   end
-
 end

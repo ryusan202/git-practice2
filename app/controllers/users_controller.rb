@@ -10,6 +10,9 @@ class UsersController < ApplicationController
   def index
     @users = User.all
     @book = Book.new
+    respond_to do |format|
+    format.html
+    format.json { render json: { book_comments: @book_comments } }
   end
   
   def edit
