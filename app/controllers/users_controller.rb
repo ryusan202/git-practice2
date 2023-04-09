@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :ensure_correct_user, only: [:update,:edit]
+  before_action :ensure_correct_user, only: [:update, :edit]
 
   def show
     @user = User.find(params[:id])
@@ -8,15 +8,17 @@ class UsersController < ApplicationController
   end
 
   def index
+    
     @users = User.all
     @book = Book.new
     respond_to do |format|
-    format.html
-    format.json { render json: { book_comments: @book_comments } }
+      format.html
+      format.json { render json: { book_comments: @book_comments } }
+    end
   end
   
   def edit
-     @user = current_user
+    @user = current_user
   end
 
   def update
@@ -25,12 +27,10 @@ class UsersController < ApplicationController
       redirect_to user_path(@user.id), notice: "You have updated user successfully."
     else
       render :edit
-      
     end
   end
   
-     def looks(search, word)
-       
+  def looks(search, word)
     if search == "perfect_match"
       where("name LIKE ?", "#{word}")
     elsif search == "forward_match"
@@ -42,14 +42,13 @@ class UsersController < ApplicationController
     else
       all
     end
- 　 end
+  end
 
   private
 
   def user_params
     params.require(:user).permit(:name, :introduction, :profile_image)
   end
-  
 
   def ensure_correct_user
     @user = User.find(params[:id])

@@ -28,6 +28,11 @@
         <% end %>
         </tr>
         <% end %>
+        
+<% if current_user != user %>
+  <%= link_to 'Begin Chat', chat_path(user.id) %>
+<% end %>
+
 </table>
  <div class='row'>       
      

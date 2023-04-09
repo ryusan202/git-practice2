@@ -17,6 +17,8 @@ class BookCommentsController < ApplicationController
       end
     end
   end
+  
+
 
   def destroy
     @book_comment = @book.book_comments.find(params[:id])

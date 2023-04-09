@@ -24,7 +24,9 @@
             <%= render partial: 'favorites/favorite', locals: { book: @book } %>
           </td>
           <td>コメント数：<%= @book.book_comments.count %></td>
-  
+          
+
+    <td>閲覧数：<%= @book.read_counts.count %></td> 
           <% if @book.user == current_user %>
             <td><%= link_to 'Edit', edit_book_path(@book), class: "btn btn-sm btn-success" %></td>
             <td><%= link_to 'Destroy', @book, method: :delete, data: { confirm: '本当に消しますか？' }, class: "btn btn-sm btn-danger"%></td>
@@ -33,25 +35,18 @@
       </table>
       
       <div>
-<div id="comments-table">
-  <table>
-    <tr>
-      <td>
-        <% @book.book_comments.each do |book_comment| %>
-          <tr>
-            <td><%= render 'book_comments/book_comments', book_comment: book_comment %></td>
-          </tr>
-        <% end %>
-      </td>
-    </tr>
-  </table>
-</div>
+<div id="comments-area">
 
-<%= form_with model: [@book, @book_comment], remote: true do |f| %>
+      <%= render 'book_comments/book_comments', book: @book %>
+
+</div>
+<%= form_with model: [@book, @book_comment], local: false do |f| %>
   <%= f.text_area :comment, rows: '5', cols: '100', placeholder: "コメントをここに" %>
   <br>
   <%= f.submit "送信する" %>
 <% end %>
+
+
 
 <script>
   // コメントフォームを submit したときに、コメント一覧を非同期で更新する
@@ -66,3 +61,4 @@
     </div>
   </div>
 </div>
+
